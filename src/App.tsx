@@ -5,12 +5,16 @@ import { useState } from "react";
 
 function App() {
   const [game, setGame] = useState(new Chess());
+  const [moveInput, setMoveInput] = useState<string>('')
+
 
   function handleClick() {
-    console.log('TEST MAKING SOME MOVE')
-    makeRandomMove();
-  
+    console.log('TEST MAKING SOME MOVE the move is: ', moveInput)
+
+    makeAMove(moveInput);
   }
+
+
   function makeAMove(move: string) {
     const gameCopy = new Chess(game.fen()); 
     const result = gameCopy.move(move);
@@ -18,13 +22,6 @@ function App() {
     return result; // null if the move was illegal, the move object if the move was legal
   }
   
-  function makeRandomMove() {
-    const possibleMoves = game.moves();
-    if (game.isGameOver() || game.isDraw() || possibleMoves.length === 0) return; // exit if the game is over
-    const randomIndex = Math.floor(Math.random() * possibleMoves.length);
-    makeAMove(possibleMoves[randomIndex]);
-  }
-
 
   return (
     <div className='flex'>
@@ -35,7 +32,9 @@ function App() {
       <div id='llm-chat' className='flex-1'>
         SOME TEXT
         <br />
-        <button onClick={handleClick} className='rounded-2xl bg-amber-800'> Make random move </button>
+
+        <input type="text" placeholder='type your move here' value={moveInput} onChange={e => setMoveInput(e.target.value)}/>
+        <button onClick={handleClick} className='rounded-2xl bg-amber-800'> Make the move </button>
       </div>
     </div>
   )
