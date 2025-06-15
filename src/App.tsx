@@ -3,6 +3,7 @@ import { Chessboard } from "react-chessboard";
 import { Chess } from "chess.js";
 import { useState } from "react";
 import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 import { Grid, Paper, styled } from "@mui/material";
 
 function App() {
@@ -59,16 +60,21 @@ function App() {
               value={llmPrompt}
               onChange={(e) => setLlmPrompt(e.target.value)}
             />
-            <input
-              type="text"
-              placeholder="type your move here"
+            <TextField
+              label="Your move"
+              variant="outlined"
               value={moveInput}
               onChange={(e) => setMoveInput(e.target.value)}
+              fullWidth
             />
-            <button onClick={handleClick} className="rounded-2xl bg-amber-800">
-              {" "}
-              Test ask{" "}
-            </button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleClick}
+              fullWidth
+            >
+              Test ask
+            </Button>
           </div>
         </Item>
       </Grid>
