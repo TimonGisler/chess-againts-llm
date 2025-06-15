@@ -33,7 +33,7 @@ function App() {
   }));
 
   return (
-    <Box sx={{ height: "100vh", width: "100vw" }}>
+    <Box sx={{ height: "100vh", width: "100vw", padding: 2 }}>
       <Grid container spacing={2}>
         <Grid size={8}>
           <StyledPaper elevation={3}>
