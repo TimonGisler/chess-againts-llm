@@ -26,11 +26,13 @@ function App() {
     setGame(gameCopy);
     return result; // null if the move was illegal, the move object if the move was legal
   }
-
   const StyledPaper = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(2),
     textAlign: "center",
     height: "100%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   }));
 
   return (
