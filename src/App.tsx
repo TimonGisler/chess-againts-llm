@@ -4,7 +4,7 @@ import { Chess } from "chess.js";
 import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { Grid, Paper, styled } from "@mui/material";
+import { Box, Grid, Paper, styled } from "@mui/material";
 
 function App() {
   const [game, setGame] = useState(new Chess());
@@ -33,43 +33,45 @@ function App() {
   }));
 
   return (
-    <Grid container spacing={2}>
-      <Grid size={8}>
-        <StyledPaper elevation={3}>
-          <Chessboard position={game.fen()}></Chessboard>
-        </StyledPaper>
+    <Box sx={{ height: "100vh", width: "100vw" }}>
+      <Grid container spacing={2}>
+        <Grid size={8}>
+          <StyledPaper elevation={3}>
+            <Chessboard position={game.fen()}></Chessboard>
+          </StyledPaper>
+        </Grid>
+        <Grid size={4}>
+          <StyledPaper elevation={3}>
+            <div id="llm-chat">
+              <TextField
+                id="outlined-multiline-static"
+                label="Multiline"
+                multiline
+                rows={4}
+                defaultValue="type your llm prompt here"
+                value={llmPrompt}
+                onChange={(e) => setLlmPrompt(e.target.value)}
+              />
+              <TextField
+                label="Your move"
+                variant="outlined"
+                value={moveInput}
+                onChange={(e) => setMoveInput(e.target.value)}
+                fullWidth
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleClick}
+                fullWidth
+              >
+                Test ask
+              </Button>
+            </div>
+          </StyledPaper>
+        </Grid>
       </Grid>
-      <Grid size={4}>
-        <StyledPaper elevation={3}>
-          <div id="llm-chat">
-            <TextField
-              id="outlined-multiline-static"
-              label="Multiline"
-              multiline
-              rows={4}
-              defaultValue="type your llm prompt here"
-              value={llmPrompt}
-              onChange={(e) => setLlmPrompt(e.target.value)}
-            />
-            <TextField
-              label="Your move"
-              variant="outlined"
-              value={moveInput}
-              onChange={(e) => setMoveInput(e.target.value)}
-              fullWidth
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleClick}
-              fullWidth
-            >
-              Test ask
-            </Button>
-          </div>
-        </StyledPaper>
-      </Grid>
-    </Grid>
+    </Box>
   );
 }
 
