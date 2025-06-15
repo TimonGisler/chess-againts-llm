@@ -12,11 +12,27 @@ import {
   styled,
   ThemeProvider,
   createTheme,
-  CssBaseline, // Added CssBaseline
+  CssBaseline,
 } from "@mui/material";
 
+const StyledPaper = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(2),
+  textAlign: "center",
+  height: "100%",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+}));
+
+const theme = createTheme({
+  colorSchemes: {
+    dark: true,
+  },
+});
+
 function App() {
-  const [game, setGame] = useState(new Chess());
+  const [game] = useState(new Chess());
+  const [fen, setFen] = useState<string>(game.fen());
   const [openrouterApiKey, setOpenrouterApiKey] = useState<string>("");
   const [moveInput, setMoveInput] = useState<string>("");
   const [llmPrompt, setLlmPrompt] = useState<string>(
@@ -47,25 +63,10 @@ function App() {
   function makeAMove(
     move: string | { from: string; to: string; promotion?: string }
   ) {
-    const gameCopy = new Chess(game.fen());
-    const result = gameCopy.move(move);
-    setGame(gameCopy);
+    const result = game.move(move);
+    setFen(game.fen());
     return result; // null if the move was illegal, the move object if the move was legal
   }
-  const StyledPaper = styled(Paper)(({ theme }) => ({
-    padding: theme.spacing(2),
-    textAlign: "center",
-    height: "100%",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  }));
-
-  const theme = createTheme({
-    colorSchemes: {
-      dark: true,
-    },
-  });
 
   return (
     <ThemeProvider theme={theme}>
@@ -90,7 +91,7 @@ function App() {
                 }}
               >
                 <Chessboard
-                  position={game.fen()}
+                  position={fen}
                   onPieceDrop={handleOnDrop}
                 ></Chessboard>
               </Box>
