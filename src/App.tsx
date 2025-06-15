@@ -4,13 +4,16 @@ import { Chess } from "chess.js";
 import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { Box, Grid, Paper, Stack, styled, ThemeProvider, createTheme } from "@mui/material";
-
-const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-  },
-});
+import {
+  Box,
+  Grid,
+  Paper,
+  Stack,
+  styled,
+  ThemeProvider,
+  createTheme,
+  CssBaseline, // Added CssBaseline
+} from "@mui/material";
 
 function App() {
   const [game, setGame] = useState(new Chess());
@@ -41,9 +44,23 @@ function App() {
     justifyContent: "center",
   }));
 
+  const theme = createTheme({
+    colorSchemes: {
+      dark: true,
+    },
+  });
+
   return (
-    <ThemeProvider theme={darkTheme}>
-      <Box sx={{ height: "100vh", width: "100vw", padding: 2, bgcolor: 'background.default' }}>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Box
+        sx={{
+          height: "100vh",
+          width: "100vw",
+          padding: 2,
+          bgcolor: "background.default",
+        }}
+      >
         <Grid container spacing={2} height={"100%"}>
           <Grid size={8}>
             <StyledPaper elevation={3}>
