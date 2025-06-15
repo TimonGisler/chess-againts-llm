@@ -1,7 +1,7 @@
 import "./App.css";
 import { Chessboard } from "react-chessboard";
 import { Chess } from "chess.js";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import {
@@ -14,6 +14,8 @@ import {
   createTheme,
   CssBaseline,
 } from "@mui/material";
+import { LlmApi } from "./helper/LlmApi";
+import type { Move } from "./type/Types";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -38,11 +40,24 @@ function App() {
   const [llmPrompt, setLlmPrompt] = useState<string>(
     "Lets play a chess game, i will provide you with my move e.g. e4 and you will answer with your move. Your move must only be a chess notation e.g. e5, and nothing else, not other text"
   );
+  const llmApi = useRef<LlmApi>(new LlmApi(openrouterApiKey));
+  useEffect(() => {
+    if (openrouterApiKey) {
+      llmApi.current = new LlmApi(openrouterApiKey);
+    }
+  }, [openrouterApiKey]); // Re-run when openrouterApiKey changes
 
   function handleClick() {
     console.log("TEST MAKING SOME MOVE the move is: ", moveInput);
 
     makeAMove(moveInput);
+  }
+
+  async function askLlmForMove(moveFromUser: Move) {
+    let question = "test";
+    let response = await llmApi.current?.askModel(question);
+
+    console.log("response: " + JSON.stringify(response));
   }
 
   function handleOnDrop(sourceSquare: string, targetSquare: string) {
@@ -52,17 +67,20 @@ function App() {
       "targetSquare:",
       targetSquare
     );
-    makeAMove({
+
+    let move: Move = {
       from: sourceSquare,
       to: targetSquare,
       promotion: "q", // Always promote to queen for simplicity
-    });
+    };
+
+    makeAMove(move);
+    askLlmForMove(move);
+
     return true;
   }
 
-  function makeAMove(
-    move: string | { from: string; to: string; promotion?: string }
-  ) {
+  function makeAMove(move: Move) {
     const result = game.current.move(move);
     setFen(game.current.fen());
     return result; // null if the move was illegal, the move object if the move was legal
