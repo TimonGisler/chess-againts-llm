@@ -1,7 +1,7 @@
 import "./App.css";
 import { Chessboard } from "react-chessboard";
 import { Chess } from "chess.js";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import {
@@ -31,8 +31,8 @@ const theme = createTheme({
 });
 
 function App() {
-  const [game] = useState(new Chess());
-  const [fen, setFen] = useState<string>(game.fen());
+  const game = useRef(new Chess());
+  const [fen, setFen] = useState<string>(game.current.fen());
   const [openrouterApiKey, setOpenrouterApiKey] = useState<string>("");
   const [moveInput, setMoveInput] = useState<string>("");
   const [llmPrompt, setLlmPrompt] = useState<string>(
@@ -63,8 +63,8 @@ function App() {
   function makeAMove(
     move: string | { from: string; to: string; promotion?: string }
   ) {
-    const result = game.move(move);
-    setFen(game.fen());
+    const result = game.current.move(move);
+    setFen(game.current.fen());
     return result; // null if the move was illegal, the move object if the move was legal
   }
 
