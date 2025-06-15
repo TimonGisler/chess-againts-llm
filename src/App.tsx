@@ -29,7 +29,24 @@ function App() {
     makeAMove(moveInput);
   }
 
-  function makeAMove(move: string) {
+  function handleOnDrop(sourceSquare: string, targetSquare: string) {
+    console.log(
+      "handleOnDrop called with sourceSquare:",
+      sourceSquare,
+      "targetSquare:",
+      targetSquare
+    );
+    makeAMove({
+      from: sourceSquare,
+      to: targetSquare,
+      promotion: "q", // Always promote to queen for simplicity
+    });
+    return true;
+  }
+
+  function makeAMove(
+    move: string | { from: string; to: string; promotion?: string }
+  ) {
     const gameCopy = new Chess(game.fen());
     const result = gameCopy.move(move);
     setGame(gameCopy);
@@ -70,10 +87,12 @@ function App() {
                   aspectRatio: "1 / 1",
                   maxHeight: "100%",
                   maxWidth: "100%",
-                  backgroundColor: "white",
                 }}
               >
-                <Chessboard position={game.fen()}></Chessboard>
+                <Chessboard
+                  position={game.fen()}
+                  onPieceDrop={handleOnDrop}
+                ></Chessboard>
               </Box>
             </StyledPaper>
           </Grid>
