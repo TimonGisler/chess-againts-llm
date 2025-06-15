@@ -110,7 +110,14 @@ function App() {
                   onChange={(e) => setLlmPrompt(e.target.value)}
                 />
                 <TextField
-                  label="Your move"
+                  label="Enter OpenRouter API Key"
+                  variant="outlined"
+                  value={openrouterApiKey}
+                  onChange={(e) => setOpenrouterApiKey(e.target.value)}
+                  fullWidth
+                />
+                <TextField
+                  label="SIMULATE LLM MOVE"
                   variant="outlined"
                   value={moveInput}
                   onChange={(e) => setMoveInput(e.target.value)}
@@ -122,7 +129,7 @@ function App() {
                   onClick={handleClick}
                   fullWidth
                 >
-                  Test ask
+                  MAKE MOVE
                 </Button>
               </Stack>
             </StyledPaper>
