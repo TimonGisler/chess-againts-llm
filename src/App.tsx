@@ -42,15 +42,13 @@ function App() {
     <Grid container spacing={2}>
       <Grid size={8}>
         <Item>
-          <div id="chessboard" className="w-lg h-lg flex-1">
-            <Chessboard position={game.fen()}></Chessboard>
-          </div>
+          <Chessboard position={game.fen()}></Chessboard>
         </Item>
       </Grid>
       <Grid size={4}>
         <Item>
           {" "}
-          <div id="llm-chat" className="flex-1">
+          <div id="llm-chat">
             <TextField
               id="outlined-multiline-static"
               label="Multiline"
