@@ -30,11 +30,12 @@ function App() {
   const StyledPaper = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(2),
     textAlign: "center",
+    height: "100%",
   }));
 
   return (
     <Box sx={{ height: "100vh", width: "100vw", padding: 2 }}>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} height={"100%"}>
         <Grid size={8}>
           <StyledPaper elevation={3}>
             <Chessboard position={game.fen()}></Chessboard>
