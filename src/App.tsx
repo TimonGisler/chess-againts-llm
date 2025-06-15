@@ -14,17 +14,6 @@ function App() {
     "Lets play a chess game, i will provide you with my move e.g. e4 and you will answer with your move. Your move must only be a chess notation e.g. e5, and nothing else, not other text"
   );
 
-  const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: "#fff",
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: "center",
-    color: (theme.vars ?? theme).palette.text.secondary,
-    ...theme.applyStyles("dark", {
-      backgroundColor: "#1A2027",
-    }),
-  }));
-
   function handleClick() {
     console.log("TEST MAKING SOME MOVE the move is: ", moveInput);
 
@@ -38,16 +27,20 @@ function App() {
     return result; // null if the move was illegal, the move object if the move was legal
   }
 
+  const StyledPaper = styled(Paper)(({ theme }) => ({
+    padding: theme.spacing(2),
+    textAlign: "center",
+  }));
+
   return (
     <Grid container spacing={2}>
       <Grid size={8}>
-        <Item>
+        <StyledPaper elevation={3}>
           <Chessboard position={game.fen()}></Chessboard>
-        </Item>
+        </StyledPaper>
       </Grid>
       <Grid size={4}>
-        <Item>
-          {" "}
+        <StyledPaper elevation={3}>
           <div id="llm-chat">
             <TextField
               id="outlined-multiline-static"
@@ -74,7 +67,7 @@ function App() {
               Test ask
             </Button>
           </div>
-        </Item>
+        </StyledPaper>
       </Grid>
     </Grid>
   );
