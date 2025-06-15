@@ -64,7 +64,17 @@ function App() {
         <Grid container spacing={2} height={"100%"}>
           <Grid size={8}>
             <StyledPaper elevation={3}>
-              <Chessboard position={game.fen()}></Chessboard>
+              <Box
+                sx={{
+                  height: "100%",
+                  aspectRatio: "1 / 1",
+                  maxHeight: "100%",
+                  maxWidth: "100%",
+                  backgroundColor: "white",
+                }}
+              >
+                <Chessboard position={game.fen()}></Chessboard>
+              </Box>
             </StyledPaper>
           </Grid>
           <Grid size={4}>
