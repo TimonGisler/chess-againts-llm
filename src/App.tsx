@@ -4,7 +4,7 @@ import { Chess } from "chess.js";
 import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { Box, Grid, Paper, styled } from "@mui/material";
+import { Box, Grid, Paper, Stack, styled } from "@mui/material";
 
 function App() {
   const [game, setGame] = useState(new Chess());
@@ -45,7 +45,7 @@ function App() {
         </Grid>
         <Grid size={4}>
           <StyledPaper elevation={3}>
-            <div id="llm-chat">
+            <Stack spacing={2} sx={{ width: "100%" }}>
               <TextField
                 id="outlined-multiline-static"
                 label="Multiline"
@@ -70,7 +70,7 @@ function App() {
               >
                 Test ask
               </Button>
-            </div>
+            </Stack>
           </StyledPaper>
         </Grid>
       </Grid>
