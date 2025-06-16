@@ -26,7 +26,6 @@ export default function ChatHistory({ messages }: { messages: Message[] }) {
           display: "flex",
           flexDirection: "column",
           gap: 2,
-          // Access theme for type-safe colors
           bgcolor: (theme) => theme.palette.background.default,
         }}
       >
@@ -42,7 +41,6 @@ export default function ChatHistory({ messages }: { messages: Message[] }) {
             <Paper
               elevation={1}
               sx={(theme) => ({
-                // Use the theme callback here
                 p: 1.5,
                 maxWidth: "70%",
                 bgcolor:
