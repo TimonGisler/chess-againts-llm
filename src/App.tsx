@@ -56,10 +56,19 @@ function App() {
   }
 
   async function askLlmForMove(moveFromUser: Move) {
-    let question = "test";
+    let question: string;
+    if (typeof moveFromUser === "string") {
+      question = llmPrompt + `I made the move ${moveFromUser}.`;
+    } else {
+      question =
+        llmPrompt +
+        `I made the move from ${moveFromUser.from} to ${moveFromUser.to}`;
+    }
+
     let response = await llmApi.current?.askModel(question);
 
     console.log("response: " + JSON.stringify(response));
+    return response;
   }
 
   function handleOnDrop(sourceSquare: string, targetSquare: string) {
@@ -77,8 +86,10 @@ function App() {
     };
 
     makeAMove(move);
-    askLlmForMove(move).then(() => {
+
+    askLlmForMove(move).then((moveOfLlm) => {
       setChatHistory(llmApi.current.getMessages());
+      makeAMove(moveOfLlm);
     });
     return true;
   }
