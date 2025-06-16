@@ -1,3 +1,5 @@
+import type { OpenRouterResponse } from "../type/Types";
+
 export class LlmApi {
   readonly API_KEY: string;
   private messages: Message[] = [];
@@ -6,7 +8,7 @@ export class LlmApi {
     this.API_KEY = apiKey;
   }
 
-  public async askModel(userInput: string): Promise<Response> {
+  public async askModel(userInput: string): Promise<string> {
     console.log("API key is: " + this.API_KEY);
     if (!this.API_KEY) {
       throw new Error("API key is not set");
@@ -17,10 +19,13 @@ export class LlmApi {
       content: userInput,
     });
 
-    return this.makeRequest(this.messages);
+    let response = await this.makeRequest(this.messages);
+    let onlyAnswer = response.choices[0].message.content;
+
+    return onlyAnswer ?? "No response from model";
   }
 
-  private async makeRequest(messages: Message[]): Promise<Response> {
+  private async makeRequest(messages: Message[]): Promise<OpenRouterResponse> {
     const test = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -33,7 +38,7 @@ export class LlmApi {
       }),
     });
 
-    return test;
+    return await test.json();
   }
 }
 
