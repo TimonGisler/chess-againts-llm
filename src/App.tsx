@@ -14,8 +14,9 @@ import {
   createTheme,
   CssBaseline,
 } from "@mui/material";
-import { LlmApi } from "./helper/LlmApi";
+import { LlmApi, type Message } from "./helper/LlmApi";
 import type { Move } from "./type/Types";
+import ChatHistory from "./ChatHistory";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -37,6 +38,7 @@ function App() {
   const [fen, setFen] = useState<string>(game.current.fen());
   const [openrouterApiKey, setOpenrouterApiKey] = useState<string>("");
   const [moveInput, setMoveInput] = useState<string>("");
+  const [chatHistory, setChatHistory] = useState<Message[]>([]);
   const [llmPrompt, setLlmPrompt] = useState<string>(
     "Lets play a chess game, i will provide you with my move e.g. e4 and you will answer with your move. Your move must only be a chess notation e.g. e5, and nothing else, not other text"
   );
@@ -76,7 +78,7 @@ function App() {
 
     makeAMove(move);
     askLlmForMove(move);
-
+    setChatHistory(llmApi.current.getMessages());
     return true;
   }
 
@@ -118,6 +120,7 @@ function App() {
           <Grid size={4}>
             <StyledPaper elevation={3}>
               <Stack spacing={2} sx={{ width: "100%" }}>
+                <ChatHistory messages={chatHistory} />
                 <TextField
                   id="outlined-multiline-static"
                   label="Multiline"

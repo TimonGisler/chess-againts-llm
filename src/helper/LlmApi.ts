@@ -25,6 +25,10 @@ export class LlmApi {
     return onlyAnswer ?? "No response from model";
   }
 
+  public getMessages(): Message[] {
+    return this.messages;
+  }
+
   private async makeRequest(messages: Message[]): Promise<OpenRouterResponse> {
     const test = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
@@ -42,7 +46,7 @@ export class LlmApi {
   }
 }
 
-interface Message {
+export interface Message {
   role: string;
   content: string;
 }
