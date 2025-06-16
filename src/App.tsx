@@ -77,8 +77,9 @@ function App() {
     };
 
     makeAMove(move);
-    askLlmForMove(move);
-    setChatHistory(llmApi.current.getMessages());
+    askLlmForMove(move).then(() => {
+      setChatHistory(llmApi.current.getMessages());
+    });
     return true;
   }
 

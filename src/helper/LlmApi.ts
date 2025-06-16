@@ -20,9 +20,17 @@ export class LlmApi {
     });
 
     let response = await this.makeRequest(this.messages);
-    let onlyAnswer = response.choices[0].message.content;
+    let currentResponse = response.choices[0];
+    let onlyAnswer =
+      currentResponse.message.content ?? "No response from model";
 
-    return onlyAnswer ?? "No response from model";
+    let answerMessage: Message = {
+      role: currentResponse.message.role,
+      content: onlyAnswer,
+    };
+    this.messages.push(answerMessage);
+
+    return onlyAnswer;
   }
 
   public getMessages(): Message[] {
